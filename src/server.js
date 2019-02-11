@@ -1,10 +1,9 @@
 const app = require('./app');
 const http = require("http");
-const io = require('socket.io')(server)
-
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "3010");
 app.set("port", port);
-
+const server = http.createServer(app);
+const io = require('socket.io')(server)
 server.listen(port);
 
 function normalizePort(val) {
@@ -25,6 +24,16 @@ server.on("listening", () => {
 
 io.on('connection', (socket) => {
     console.log('New user connected')
+
+    socket.username = "Bloc-wallChallenge-user"
+
+    socket.on('change_username', (data) => {
+        socket.username = data.username
+    })
+
+    socket.on('new_message', (data) => {
+        io.sockets.emit('new_message', {message: data.message, username: socket.username});
+    })
 })
 
-app.use(express.static(__dirname));
+

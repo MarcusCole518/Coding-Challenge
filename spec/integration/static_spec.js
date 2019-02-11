@@ -8,7 +8,7 @@ describe("GET /", () => {
         request.get(base, (err, res, body) => {
             expect(err).toBeNull();
             expect(res.statusCode).toBe(200);
-            expect(body).toContain("Hello World");
+            expect(body).toContain("Bloc Wall Challenge");
             done();
         });
     });
